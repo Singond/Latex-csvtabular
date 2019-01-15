@@ -7,45 +7,7 @@
 \usepackage{forloop}
 \usepackage{pgffor}
 
-\newcommand{\csvtable}[6]{
-	\newcounter{lastbreak}
-	\newcounter{lastcolumnheight}
-	\newcounter{tablerow}
-	\foreach \break in {#5} {%
-		\setcounter{tablerow}{0}
-		\begin{tabular}[htb]{#2}
-			\toprule
-			#3
-			\csvreader[
-				before line = \\, before first line = \\ \midrule,
-				after line = {\addtocounter{tablerow}{1}},
-				filter={\value{csvinputline} > \arabic{lastbreak}
-				        \AND \(\value{csvinputline} < \break
-				        \OR \value{csvinputline} = \break\)}]
-				{#1}{}{#4} \\
-			\bottomrule
-		\end{tabular}#6%
-		\setcounter{lastbreak}{\break}
-		\setcounter{lastcolumnheight}{\arabic{tablerow}}
-	}%
-	% Process the remaining lines
-	\setcounter{tablerow}{0}
-	\newcounter{blanks}
-	\begin{tabular}[htb]{#2}
-		\toprule
-		#3
-		\csvreader[
-			before line = \\, before first line = \\ \midrule,
-			after line = {\addtocounter{tablerow}{1}},
-			filter={\value{csvinputline} > \arabic{lastbreak}}]
-			{#1}{}{#4}
-		% Fill in blank lines to make the tables of same height
-		\forloop{blanks}{\value{tablerow}}
-			{\value{blanks} < \value{lastcolumnheight}} {\\}
-		\\ % Required by tabular after the forloop
-		\bottomrule
-	\end{tabular}
-}
+\usepackage{csvtabular}
 
 \begin{document}
 
@@ -71,8 +33,6 @@
 		{\tablekclheader}
 		{\csvcoli & \csvcolii &\csvcoliii}
 		{18, 35}
-% 		{27}
-% 		{}
 		{\quad}
 \end{table}
 
