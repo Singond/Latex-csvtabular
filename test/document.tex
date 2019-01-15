@@ -1,24 +1,12 @@
 % A testing document for the csvtabular package.
 \documentclass{article}
-
-% Tables
-\usepackage{tabu}
 \usepackage{booktabs}
 \usepackage{csvsimple}
-\usepackage{multirow}
 \usepackage{multicol}
 \newcommand{\coltext}[1]{\multicolumn{1}{c}{#1}} % For column headers
-
 \usepackage{forloop}
 \usepackage{pgffor}
 
-% TODO: Make #5 and #6 optional
-% #1 - CSV filename
-% #2 - columns
-% #3 - header
-% #4 - line
-% #5 - breaks
-% $6 - spacer
 \newcommand{\csvtable}[6]{
 	\newcounter{lastbreak}
 	\newcounter{lastcolumnheight}
