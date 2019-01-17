@@ -1,5 +1,6 @@
 \usepackage{booktabs}
 \usepackage{csvsimple}
+\usepackage{xargs}
 \usepackage{forloop}
 \usepackage{pgffor}
 
@@ -9,44 +10,44 @@
 \newcounter{blanks}
 
 % TODO: Make #5 and #6 optional
-% #1 - CSV filename
-% #2 - columns
-% #3 - header
-% #4 - line
-% #5 - breaks
-% $6 - spacer
-\newcommand{\csvtable}[6]{
+% #1 - breaks
+% #2 - spacer
+% #3 - CSV filename
+% #4 - columns
+% #5 - header
+% #6 - line
+\newcommandx{\csvtable}[6][1, 2=\quad]{
 	\setcounter{lastbreak}{0}
 	\setcounter{lastcolumnheight}{0}
 	\setcounter{tablerow}{0}
-	\foreach \break in {#5} {%
+	\foreach \break in {#1} {%
 		\setcounter{tablerow}{0}
-		\begin{tabular}[htb]{#2}
+		\begin{tabular}[htb]{#4}
 			\toprule
-			#3
+			#5
 			\csvreader[
 				before line = \\, before first line = \\ \midrule,
 				after line = {\addtocounter{tablerow}{1}},
 				filter={\value{csvinputline} > \arabic{lastbreak}
 				        \AND \(\value{csvinputline} < \break
 				        \OR \value{csvinputline} = \break\)}]
-				{#1}{}{#4} \\
+				{#3}{}{#6} \\
 			\bottomrule
-		\end{tabular}#6%
+		\end{tabular}#2%
 		\setcounter{lastbreak}{\break}
 		\setcounter{lastcolumnheight}{\arabic{tablerow}}
 	}%
 	% Process the remaining lines
 	\setcounter{tablerow}{0}
 	\setcounter{blanks}{0}
-	\begin{tabular}[htb]{#2}
+	\begin{tabular}[htb]{#4}
 		\toprule
-		#3
+		#5
 		\csvreader[
 			before line = \\, before first line = \\ \midrule,
 			after line = {\addtocounter{tablerow}{1}},
 			filter={\value{csvinputline} > \arabic{lastbreak}}]
-			{#1}{}{#4}
+			{#3}{}{#6}
 		% Fill in blank lines to make the tables of same height
 		\forloop{blanks}{\value{tablerow}}
 			{\value{blanks} < \value{lastcolumnheight}} {\\}
