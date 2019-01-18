@@ -13,7 +13,8 @@
 % Optional arguments
 \define@key{csvtabular}{breaks}[]{\def\csvtabular@breaks{#1}}
 \define@key{csvtabular}{spacer}[]{\def\csvtabular@spacer{#1}}
-\presetkeys{csvtabular}{breaks,spacer}{}
+\define@key{csvtabular}{position}[]{\def\csvtabular@pos{#1}}
+\presetkeys{csvtabular}{breaks,spacer,position}{}
 
 % TODO: Make #5 and #6 optional
 % #1 - options
@@ -34,7 +35,7 @@
 	% Create the tabular, stopping at every break to start a new one
 	\foreach \break in \csvtabular@breaks {%
 		\setcounter{tablerow}{0}%
-		\begin{tabular}[htb]{#3}
+		\begin{tabular}[\csvtabular@pos]{#3}
 			\toprule
 			#4
 			\csvreader[
@@ -52,7 +53,7 @@
 	% Process the remaining lines into a last tabular
 	\setcounter{tablerow}{0}%
 	\setcounter{blanks}{0}%
-	\begin{tabular}[htb]{#3}
+	\begin{tabular}[\csvtabular@pos]{#3}
 		\toprule
 		#4
 		\csvreader[
