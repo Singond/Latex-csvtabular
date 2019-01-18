@@ -27,15 +27,13 @@
 % - spacer
 \newcommand{\csvtable}[5][]{
 	\setkeys{csvtabular}{#1}
-	Breaks: \csvtabular@breaks \\
-	Spacer: \csvtabular@spacer \\
 	\setcounter{lastbreak}{0}
 	\setcounter{lastcolumnheight}{0}
 	\setcounter{tablerow}{0}
 	\ifthenelse{\NOT\equal{\csvtabular@breaks}{}}{
 	% Create the tabular, stopping at every break to start a new one
-	\foreach \break in {\csvtabular@breaks} {%
-		\setcounter{tablerow}{0}
+	\foreach \break in \csvtabular@breaks {%
+		\setcounter{tablerow}{0}%
 		\begin{tabular}[htb]{#3}
 			\toprule
 			#4
