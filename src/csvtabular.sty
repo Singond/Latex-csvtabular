@@ -2,51 +2,64 @@
 \usepackage{csvsimple}
 \usepackage{forloop}
 \usepackage{pgffor}
+\usepackage{ifthen}
+\usepackage{xkeyval}
 
 \newcounter{lastbreak}
 \newcounter{lastcolumnheight}
 \newcounter{tablerow}
 \newcounter{blanks}
 
+% Optional arguments
+\define@key{csvtabular}{breaks}[]{\def\csvtabular@breaks{#1}}
+\define@key{csvtabular}{spacer}[]{\def\csvtabular@spacer{#1}}
+\presetkeys{csvtabular}{breaks,spacer}{}
+
 % TODO: Make #5 and #6 optional
-% #1 - CSV filename
-% #2 - columns
-% #3 - header
-% #4 - line
-% #5 - breaks
-% $6 - spacer
-\newcommand{\csvtable}[6]{
+% #1 - options
+% #2 - CSV filename
+% #3 - columns
+% #4 - header
+% #5 - line
+%
+% options:
+% - breaks
+% - spacer
+\newcommand{\csvtable}[5][]{
+	\setkeys{csvtabular}{#1}
 	\setcounter{lastbreak}{0}
 	\setcounter{lastcolumnheight}{0}
 	\setcounter{tablerow}{0}
-	\foreach \break in {#5} {%
-		\setcounter{tablerow}{0}
-		\begin{tabular}[htb]{#2}
+	\ifthenelse{\NOT\equal{\csvtabular@breaks}{}}{
+	% Create the tabular, stopping at every break to start a new one
+	\foreach \break in \csvtabular@breaks {%
+		\setcounter{tablerow}{0}%
+		\begin{tabular}[htb]{#3}
 			\toprule
-			#3
+			#4
 			\csvreader[
 				before line = \\, before first line = \\ \midrule,
 				after line = {\addtocounter{tablerow}{1}},
 				filter={\value{csvinputline} > \arabic{lastbreak}
 				        \AND \(\value{csvinputline} < \break
 				        \OR \value{csvinputline} = \break\)}]
-				{#1}{}{#4} \\
+				{#2}{}{#5} \\
 			\bottomrule
-		\end{tabular}#6%
-		\setcounter{lastbreak}{\break}
-		\setcounter{lastcolumnheight}{\arabic{tablerow}}
-	}%
-	% Process the remaining lines
-	\setcounter{tablerow}{0}
-	\setcounter{blanks}{0}
-	\begin{tabular}[htb]{#2}
+		\end{tabular}\csvtabular@spacer%
+		\setcounter{lastbreak}{\break}%
+		\setcounter{lastcolumnheight}{\arabic{tablerow}}%
+	}}{}%
+	% Process the remaining lines into a last tabular
+	\setcounter{tablerow}{0}%
+	\setcounter{blanks}{0}%
+	\begin{tabular}[htb]{#3}
 		\toprule
-		#3
+		#4
 		\csvreader[
 			before line = \\, before first line = \\ \midrule,
 			after line = {\addtocounter{tablerow}{1}},
 			filter={\value{csvinputline} > \arabic{lastbreak}}]
-			{#1}{}{#4}
+			{#2}{}{#5}
 		% Fill in blank lines to make the tables of same height
 		\forloop{blanks}{\value{tablerow}}
 			{\value{blanks} < \value{lastcolumnheight}} {\\}
