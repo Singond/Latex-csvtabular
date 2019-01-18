@@ -17,20 +17,18 @@ Create a simple table from a CSV file:
 		{c c c}                             % column definitions
 		{$\theta$ & $R$ & $C$}              % table header
 		{\csvcoli & \csvcolii &\csvcoliii}  % table line
-		{}{}
 \end{table}
 ```
 
-Create a CSV table and split it into three tables aligned on line:
+Create a CSV table and break it after lines 18 and 35. This will produce three
+consecutive tabulars separated by `\quad`:
 
 ```
 \begin{table}[htp]
-	\csvtable
+	\csvtable[breaks={18,35}, spacer=\quad]
 		{measurement-capacity.csv}          % CSV file name
 		{c c c}                             % column definitions
 		{$\theta$ & $R$ & $C$}              % table header
 		{\csvcoli & \csvcolii &\csvcoliii}  % table line
-		{18, 35}                            % lines to break the table at
-		{\quad}                             % table separator
 \end{table}
 ```
