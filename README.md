@@ -5,11 +5,47 @@ The `csvtabular` package makes it easier to create tables from CSV files.
 It uses the `csvsimple` package to build the table and styles it with
 `booktabs`.
 
+Requirements
+============
+
+This package requires the following packages to be installed on your system:
+- `booktabs`
+- `csvsimple`
+- `forloop`
+- `pgffor`
+- `ifthen`
+- `xkeyval`
+
 Usage
 =====
+The package provides a single macro called `\csvtabular`.
+
+Arguments
+---------
+This macro takes four mandatory arguments:
+
+1 - filename
+2 - columns definition
+3 - table header
+4 - table line
+
+### Filename
+This is the path to the CSV file to be read.
+
+### Definition of columns
+This is the standard argument to the `tabular` environment, which specifies
+the individual columns. See the `tabular` environment for details.
+
+### Table header
+The table header to be printed below the top line on all tables.
+
+### Table line
+This is the `command list` argument to the `\csvreader` macro from the
+`csvsimple` package. This is where each data row of the table is built.
+For details see the manual of `csvsimple`.
 
 Options
-------------------
+-------
 The optional parameters are specified as key-value pairs in square brackets.
 
 ### `breaks`
