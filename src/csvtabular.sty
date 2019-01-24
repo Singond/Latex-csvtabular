@@ -16,39 +16,55 @@
 \define@key{csvtabular}{position}[]{\def\csvtabular@pos{#1}}
 \presetkeys{csvtabular}{breaks,spacer,position}{}
 
+\newcommand{\ifstringsequal}[2]{%
+	\ifnum\pdfstrcmp{\detokenize{#1}}{\detokenize{#2}}=\z@
+		\expandafter\@firstoftwo
+	\else
+		\expandafter\@secondoftwo
+	\fi%
+}
+
 % #1 - options (see below)
 % #2 - CSV filename
 % #3 - columns
 % #4 - header
 % #5 - line
+% #6 - footer
 %
 % options:
 % - breaks
 % - spacer
-\newcommand{\csvtabular}[5][]{
+\newcommand{\csvtabular}[6][]{
 	\setkeys{csvtabular}{#1}
 	\setcounter{lastbreak}{0}
 	\setcounter{lastcolumnheight}{0}
 	\setcounter{tablerow}{0}
+	\ifstringsequal{#6}{}{
+		\def\csvtabular@footer{}
+	}{
+		\def\csvtabular@footer{\midrule #6 \\}
+	}
 	\ifthenelse{\NOT\equal{\csvtabular@breaks}{}}{
-	% Create the tabular, stopping at every break to start a new one
-	\foreach \break in \csvtabular@breaks {%
-		\setcounter{tablerow}{0}%
-		\begin{tabular}[\csvtabular@pos]{#3}
-			\toprule
-			#4
-			\csvreader[
-				before line = \\, before first line = \\ \midrule,
-				after line = {\addtocounter{tablerow}{1}},
-				filter={\value{csvinputline} > \arabic{lastbreak}
-				        \AND \(\value{csvinputline} < \break
-				        \OR \value{csvinputline} = \break\)}]
-				{#2}{}{#5} \\
-			\bottomrule
-		\end{tabular}\csvtabular@spacer%
-		\setcounter{lastbreak}{\break}%
-		\setcounter{lastcolumnheight}{\arabic{tablerow}}%
-	}}{}%
+		% Create the tabular, stopping at every break to start a new one
+		\foreach \break in \csvtabular@breaks {%
+			\setcounter{tablerow}{0}%
+			\begin{tabular}[\csvtabular@pos]{#3}
+				\toprule
+				#4
+				\csvreader[
+					before line = \\, before first line = \\ \midrule,
+					after line = {\addtocounter{tablerow}{1}},
+					filter={\value{csvinputline} > \arabic{lastbreak}
+					        \AND \(\value{csvinputline} < \break
+					        \OR \value{csvinputline} = \break\)}]
+					{#2}{}{#5} \\
+				\csvtabular@footer
+				\bottomrule
+			\end{tabular}\csvtabular@spacer%
+			\setcounter{lastbreak}{\break}%
+			\setcounter{lastcolumnheight}{\arabic{tablerow}}%
+		}%
+	}{}%
 	% Process the remaining lines into a last tabular
 	\setcounter{tablerow}{0}%
 	\setcounter{blanks}{0}%
@@ -64,6 +80,7 @@
 		\forloop{blanks}{\value{tablerow}}
 			{\value{blanks} < \value{lastcolumnheight}} {\\}
 		\\ % Required by tabular after the forloop
+		\csvtabular@footer
 		\bottomrule
 	\end{tabular}
 }

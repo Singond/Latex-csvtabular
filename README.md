@@ -37,12 +37,15 @@ This is the standard argument to the `tabular` environment, which specifies
 the individual columns. See the `tabular` environment for details.
 
 ### Table header
-The table header to be printed below the top line on all tables.
+A header to be printed at the top of every table.
 
 ### Table line
 This is the `command list` argument to the `\csvreader` macro from the
 `csvsimple` package. This is where each data row of the table is built.
 For details see the manual of `csvsimple`.
+
+### Table footer
+A footer to be printed at the bottom of every table.
 
 Options
 -------
@@ -86,6 +89,7 @@ Create a simple table from a CSV file:
 		{c c c}                             % column definitions
 		{$\theta$ & $R$ & $C$}              % table header
 		{\csvcoli & \csvcolii &\csvcoliii}  % table line
+		{}                                  % table footer
 \end{table}
 ```
 
@@ -99,5 +103,6 @@ consecutive tabulars separated by `\quad`:
 		{c c c}                             % column definitions
 		{$\theta$ & $R$ & $C$}              % table header
 		{\csvcoli & \csvcolii &\csvcoliii}  % table line
+		{}                                  % table footer
 \end{table}
 ```
