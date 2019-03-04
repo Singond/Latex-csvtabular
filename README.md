@@ -22,12 +22,13 @@ The package provides a single macro called `\csvtabular`.
 
 Arguments
 ---------
-This macro takes four mandatory arguments:
+This macro takes five mandatory arguments:
 
 1 - filename
 2 - columns definition
 3 - table header
 4 - table line
+5 - table column
 
 ### Filename
 This is the path to the CSV file to be read.
@@ -45,7 +46,7 @@ This is the `command list` argument to the `\csvreader` macro from the
 For details see the manual of `csvsimple`.
 
 ### Table footer
-A footer to be printed at the bottom of every table.
+A footer to be printed at the bottom of every table. It can be empty.
 
 Options
 -------
