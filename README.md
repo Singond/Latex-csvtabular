@@ -78,6 +78,14 @@ when the tabulars fit into a single line.
 This is the optional position argument passed to the resulting `tabular`.
 Its value can be `t`, `c` or `b` (see the `tabular` environment).
 
+### `from`
+The zero-based index of the first line in the CSV file to be present in
+the output. Lines before this number are ignored. This number must be smaller
+than the first break specified in the `breaks` option.
+
+Leaving this option unspecified is equal to setting it to `1` (if the header
+line is being ignored), or `0` (if the header line is not being ignored).
+
 Examples
 ========
 

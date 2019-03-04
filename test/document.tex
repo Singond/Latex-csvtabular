@@ -27,8 +27,22 @@
 	\caption{Resistance and capacity of cell with KCl solution}
 	\label{tab:kcl}
 	\centering
-	\csvtabular[breaks=27, spacer=\quad]
+	\csvtabular[breaks=30, spacer=\quad, from=8]
 		{measurement-capacity.csv}
+		{c c c}
+		{\tablekclheader}
+		{\csvcoli & \csvcolii & \csvcoliii}
+		{}
+\end{table}
+% Note that first line is always ignored, even if it contains numeric data
+\begin{table}[htp]
+	\small
+	\caption{Resistance and capacity of cell with KCl solution,
+		using a CSV table without a header line}
+	\label{tab:kcl}
+	\centering
+	\csvtabular[breaks=26, spacer=\quad]
+		{measurement-capacity-nohead.csv}
 		{c c c}
 		{\tablekclheader}
 		{\csvcoli & \csvcolii & \csvcoliii}

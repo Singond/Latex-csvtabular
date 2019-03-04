@@ -12,9 +12,10 @@
 
 % Optional arguments
 \define@key{csvtabular}{breaks}[]{\def\csvtabular@breaks{#1}}
+\define@key{csvtabular}{from}[0]{\def\csvtabular@from{#1}}
 \define@key{csvtabular}{spacer}[]{\def\csvtabular@spacer{#1}}
 \define@key{csvtabular}{position}[]{\def\csvtabular@pos{#1}}
-\presetkeys{csvtabular}{breaks,spacer,position}{}
+\presetkeys{csvtabular}{breaks,from,spacer,position}{}
 
 \newcommand{\ifstringsequal}[2]{%
 	\ifnum\pdfstrcmp{\detokenize{#1}}{\detokenize{#2}}=\z@
@@ -24,19 +25,15 @@
 	\fi%
 }
 
-% #1 - options (see below)
+% #1 - options (see 'Optional arguments' above)
 % #2 - CSV filename
 % #3 - columns
 % #4 - header
 % #5 - line
 % #6 - footer
-%
-% options:
-% - breaks
-% - spacer
 \newcommand{\csvtabular}[6][]{
 	\setkeys{csvtabular}{#1}
-	\setcounter{lastbreak}{0}
+	\setcounter{lastbreak}{\csvtabular@from}
 	\setcounter{lastcolumnheight}{0}
 	\setcounter{tablerow}{0}
 	\ifstringsequal{#6}{}{
@@ -52,7 +49,8 @@
 				\toprule
 				#4
 				\csvreader[
-					before line = \\, before first line = \\ \midrule,
+					before line = \\,
+					before first line = \\ \midrule,
 					after line = {\addtocounter{tablerow}{1}},
 					filter={\value{csvinputline} > \arabic{lastbreak}
 					        \AND \(\value{csvinputline} < \break
