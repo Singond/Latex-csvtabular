@@ -9,6 +9,7 @@ Requirements
 ============
 
 This package requires the following packages to be installed on your system:
+
 - `booktabs`
 - `csvsimple`
 - `forloop`
@@ -24,11 +25,11 @@ Arguments
 ---------
 This macro takes five mandatory arguments:
 
-1 - filename
-2 - columns definition
-3 - table header
-4 - table line
-5 - table column
+1. filename
+2. columns definition
+3. table header
+4. table line
+5. table column
 
 ### Filename
 This is the path to the CSV file to be read.
