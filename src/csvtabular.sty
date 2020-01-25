@@ -31,16 +31,16 @@
 % #4 - header
 % #5 - line
 % #6 - footer
-\newcommand{\csvtabular}[6][]{
-	\setkeys{csvtabular}{#1}
-	\setcounter{lastbreak}{\csvtabular@from}
-	\setcounter{lastcolumnheight}{0}
-	\setcounter{tablerow}{0}
-	\ifstringsequal{#6}{}{
-		\def\csvtabular@footer{}
-	}{
-		\def\csvtabular@footer{\midrule #6 \\}
-	}
+\newcommand{\csvtabular}[6][]{%
+	\setkeys{csvtabular}{#1}%
+	\setcounter{lastbreak}{\csvtabular@from}%
+	\setcounter{lastcolumnheight}{0}%
+	\setcounter{tablerow}{0}%
+	\ifstringsequal{#6}{}{%
+		\def\csvtabular@footer{}%
+	}{%
+		\def\csvtabular@footer{\midrule #6 \\}%
+	}%
 	\ifthenelse{\NOT\equal{\csvtabular@breaks}{}}{
 		% Create the tabular, stopping at every break to start a new one
 		\foreach \break in \csvtabular@breaks {%
@@ -80,5 +80,5 @@
 		\\ % Required by tabular after the forloop
 		\csvtabular@footer
 		\bottomrule
-	\end{tabular}
+	\end{tabular}%
 }

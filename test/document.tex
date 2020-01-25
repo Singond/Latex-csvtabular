@@ -61,4 +61,24 @@
 		{\coltext{$\hat\mu$} & 650.0 & 0.2294}
 \end{table}
 
+% Two adjacent csvtabulars
+\begin{table}[htp]
+	\small
+	\caption{Space between adjacent \tt{csvtabulars}}
+	\label{tab:kcl-four}
+	\centering
+	\csvtabular[from=15, position=t]
+		{measurement-capacity.csv}
+		{c c c}
+		{\tablekclheader}
+		{\csvcoli & \csvcolii & \csvcoliii}
+		{\coltext{$\hat\mu$} & 650.0 & 0.2294}%
+	\csvtabular[from=15, position=t]
+		{measurement-capacity.csv}
+		{c c c}
+		{\tablekclheader}
+		{\csvcoli & \csvcolii & \csvcoliii}
+		{\coltext{$\hat\mu$} & 650.0 & 0.2294}
+\end{table}
+
 \end{document}
