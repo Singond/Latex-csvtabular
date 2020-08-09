@@ -17,6 +17,12 @@ This package requires the following packages to be installed on your system:
 - `ifthen`
 - `xkeyval`
 
+Installing
+==========
+Copy the contents of `src` directory into your `TEXMFHOME/tex/latex/<any-dir>`.
+A Make target is provided which can do this automatically. Simply run
+`make install` in the project root.
+
 Usage
 =====
 The package provides a single macro called `\csvtabular`.
